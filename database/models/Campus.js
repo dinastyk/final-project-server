@@ -28,7 +28,7 @@ const Campus = db.define("campus", {
       isUrl: true // Checks if it's a valid URL
     },
     defaultValue: 'https://www.cnu.org/sites/default/files/styles/public_square_feature_image/public/BostonCollege1.jpg?itok=iKc35HST' // Placeholder
-  }
+  }  
 });
 
 // Export the campus model

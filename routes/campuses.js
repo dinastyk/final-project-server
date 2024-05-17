@@ -29,7 +29,7 @@ router.get('/', ash(async (req, res) => {
   res.status(200).json(campuses);  // Status code 200 OK - request succeeded
 }));
 
-/* GET CAMPUS BY ID */
+/* GET CAMPUS BY ID */  
 router.get('/:id', ash(async (req, res) => {
   // Find campus by Primary Key
   let campus = await Campus.findByPk(req.params.id, { include: [Student] });  // Get the campus and its associated students
