@@ -58,14 +58,27 @@ router.delete('/:id', function(req, res, next) {
 });
 
 /* EDIT STUDENT */
-router.put('/:id', ash(async(req, res) => {
-  await Student.update(req.body,
-        { where: {id: req.params.id} }
-  );
-  // Find student by Primary Key
-  let student = await Student.findByPk(req.params.id);
-  res.status(201).json(student);  // Status code 201 Created - successful creation of a resource
+router.put('/:id', ash(async (req, res) => {
+  const { campusId, ...studentData } = req.body; // Separate campusId from other student data
+  const student = await Student.findByPk(req.params.id);
+  
+  if (student) {
+    await student.update(studentData); // Update student information
+    
+    if (campusId !== undefined) {
+      const campus = await Campus.findByPk(campusId);
+      if (campus) {
+        await student.setCampus(campus); // Update the associated campus
+      }
+    }
+
+    const updatedStudent = await Student.findByPk(req.params.id, { include: [Campus] });
+    res.status(201).json(updatedStudent);  // Status code 201 Created - successful creation of a resource
+  } else {
+    res.status(404).json({ error: 'Student not found' }); // Status code 404 Not Found
+  }
 }));
+
 
 // Export router, so that it can be imported to construct the apiRouter (app.js)
 module.exports = router;
