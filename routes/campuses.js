@@ -29,7 +29,7 @@ router.get('/', ash(async (req, res) => {
   res.status(200).json(campuses);  // Status code 200 OK - request succeeded
 }));
 
-/* GET CAMPUS BY ID */  
+/* GET CAMPUS BY ID */
 router.get('/:id', ash(async (req, res) => {
   // Find campus by Primary Key
   let campus = await Campus.findByPk(req.params.id, { include: [Student] });  // Get the campus and its associated students
@@ -50,12 +50,15 @@ router.post('/', function (req, res, next) {
 
 /* EDIT CAMPUS */
 router.put('/:id', ash(async (req, res) => {
+  // Assigns the number of rows updated by the Campus.update method to the updated variable, 
+  // which is then used to check if the update was successful (i.e., if updated is greater than 0)
   const [updated] = await Campus.update(req.body, {
     where: {
       id: req.params.id
     }
   });
   if (updated) {
+    // Find the campus by its primary key
     let campus = await Campus.findByPk(req.params.id, { include: [Student] });  // Get the campus and its associated students
     res.status(200).json(campus);  // Status code 200 OK - request succeeded
   } else {
