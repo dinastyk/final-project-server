@@ -35,8 +35,13 @@ router.get('/', ash(async(req, res) => {
 /* GET STUDENT BY ID */
 router.get('/:id', ash(async(req, res) => {
   // Find student by Primary Key
-  let student = await Student.findByPk(req.params.id, {include: [Campus]});  // Get the student and its associated campus
-  res.status(200).json(student);  // Status code 200 OK - request succeeded
+  let student = await Student.findByPk(req.params.id, { include: [Campus] }); // Includes the campus information
+  if (student) {
+    res.status(200).json(student);  // Status code 200 OK - request succeeded
+  } 
+  else {
+    res.status(404).json({ error: 'Student not found' });  // Error handling: Status code 404 Not Found
+  }
 }));
 
 /* ADD NEW STUDENT */
