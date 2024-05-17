@@ -63,7 +63,7 @@ router.put('/:id', ash(async (req, res) => {
 }));
 
 /* DELETE CAMPUS */
-router.delete('/:id', ash(async (req, res) => {
+router.delete('/:id', ash(async (req, res) => { // Deletes the campus based on the id
   const deleted = await Campus.destroy({
     where: {
       id: req.params.id
@@ -71,7 +71,8 @@ router.delete('/:id', ash(async (req, res) => {
   });
   if (deleted) {
     res.status(200).json("Deleted a campus!");  // Status code 200 OK - request succeeded
-  } else {
+  } 
+  else {
     res.status(404).json({ error: 'Campus not found' });  // Status code 404 Not Found
   }
 }));
