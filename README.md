@@ -1,4 +1,4 @@
-# server-starter-code
+# Final Project Server
 
 ## contributors
 
